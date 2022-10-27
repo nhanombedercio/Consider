@@ -78,6 +78,7 @@ dados_chimanimani = dados %>% filter(dados$Regiao=="CHIMANIMANI")
    
  maxsexxoesCH=max(dados_chimanimani$nrSessao)
  maxsexxoesGO=max(dados_gorongosa$nrSessao)
+ minsessoe=max(dados$nrSessao)
 ```
 
 ```{r}
