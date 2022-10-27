@@ -624,7 +624,7 @@ renderPlotly({
 ```{r}
 fluidPage(("NESSE PAINEL APRESENTAMOS OS DADOS DOS WORKSHOOP COM PARCEIROS"),
   hr()) 
-
+ 
 ```
 
 ```{r}
