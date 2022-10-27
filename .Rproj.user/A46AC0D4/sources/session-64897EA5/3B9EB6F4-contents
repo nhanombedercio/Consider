@@ -87,7 +87,7 @@ dados_chimanimani = dados %>% filter(dados$Regiao=="CHIMANIMANI")
 #==================================================================================
 ```
 
-# OVERVIEW {data-navmenu="RESUMO"}
+# { }
 
 ## Comandos2 {.sidebar}
 
@@ -210,7 +210,7 @@ valueBox(sum(Desistentes_F$Quantidade) ,caption="TOTAL DE DESISTENTES DO SEXO FE
 #########################GORONGOSA-GERAL######################################
 ```
 
-# POR REGIÃO {data-navmenu="RESUMO"}
+# OVERVIEW  {data-navmenu="RESUMO"}
 
 ## Comandos2 {.sidebar}
 
@@ -226,10 +226,13 @@ O Projecto Considera esta sendo implementado em Chimanimani e Gorongosa
 ```{r}
   
 fluidPage(
+
+hr(),
+("Para mostrar os dados deves selecionar na caixinha em baixo uma ou duas regiões"),
 hr(),
 
-  radioButtons("RegiaoProdutor", label =  ("Selecione a Região"), 
-               choices = unique(dados$Regiao), selected = NULL), 
+  selectInput("RegiaoProdutor", label =  ("Selecione a Região"), 
+               choices = unique(dados$Regiao), multiple = TRUE), 
   hr()  
 )
 ```
@@ -358,7 +361,7 @@ valueBox(sum(Desistentes_F_G$Quantidade),caption="TOTAL DE DESISTENTES DO SEXO F
 #########################CHIMANIMANI-GERAL######################################
 ```
 
-# AGREGADO {data-icon="fa-signal" data-navmenu="PRODUTORES"}
+# OVERVIEW {data-icon="fa-signal" data-navmenu="PRODUTORES"}
 
 ## Comandos1 {.sidebar}
 
@@ -385,7 +388,7 @@ VEJA AS PERCENTAGENS PASSANDO O MOUSE NOS GRAFICOS"
 ```{r}
 fluidPage(
   radioButtons("regiaocheck", label =("Selecione a Região"), 
-               choices =unique(dados$Regiao)),
+               choices =unique(dados$Regiao), selected = "GORONGOSA"),
    hr()
   )
 ```
@@ -627,7 +630,8 @@ fluidPage(("NESSE PAINEL APRESENTAMOS OS DADOS DOS WORKSHOOP COM PARCEIROS"),
 ```{r}
 
 fluidPage(radioButtons("REGIAOParc", label =  ("Selecione a Regiao"), 
-               choices = unique(parceiros$Regiao), selected = "CHIMANIMANI")
+               choices = unique(parceiros$Regiao), selected = "GORONGOSA")
+           
 )
 ```
 
@@ -652,7 +656,7 @@ quantidade <- parceiros_present %>%
   filter(Regiao %in% input$REGIAOParc) %>% 
   group_by(Regiao) %>%
   summarize(avg_Number =n())
-valueBox(value = quantidade$avg_Number, icon = "fa-users")
+valueBox(value = sum(quantidade$avg_Number), icon = "fa-users")
 })
 #Quantos produtores temos em Gorongosa do sexo Feminino
 ```
@@ -672,7 +676,7 @@ quantidade <- parceiros_present %>%
   group_by(Sexo) %>%
   summarize(Number_1 =n())
             #mutate(round(percent=Number_1/quantidade_T$Number,digits =1)*100)
-valueBox(value = list((round((quantidade$Number_1/quantidade_T$Number)*100,digits =1)), "%"), icon = "fa-users")
+valueBox(value = list((round(((quantidade$Number_1)/(quantidade_T$Number))*100,digits =1)), "%"), icon = "fa-users")
  
 })
 ```
@@ -685,7 +689,7 @@ renderValueBox({
 valueBox(value = "Sem dados", icon = "fa-users")
 })
 ```
-
+ 
 ### PERCENTAGEM DE PARCEIROS DO SEXO FEMININO QUE REALIZAM TODAS PHOTOVOICE
  
 
@@ -725,15 +729,55 @@ renderPlotly({
 
 # LISTA DE INSTITUIÇÕES PARCEIRAS {data-navmenu="PARCEIROS"}
 
+## Comandos1 {.sidebar}
 ```{r}
 fluidPage(("NESSE PAINEL APRESENTAMOS OS DADOS DAS SESSÕES COM PARCEIROS"),
-  hr()) 
+  hr(),
+          hr(), 
+  ("Apresentamos tambem o numero total de participantes dos principais parceiros"),
+    hr(), 
+    hr()) 
  
 fluidPage(("A tabela mostra as instituições parceiras e numero de parceiros por instituição"),
            hr()) 
   
 ```
+## Column {data-width="200"}
+### TOTAL DE PARCEIROS DA MICAIA
 
+```{r}
+renderValueBox({
+quantidade <- parceiros_inst %>%
+  na.omit() %>%
+  filter(Instituicao %in% "MICAIA") %>%   summarize(avg_Number = sum(TOTAL))
+valueBox(value = sum(quantidade), icon = "fa-users")
+})
+#Quantos produtores temos em Gorongosa do sexo Feminino
+```
+
+### TOTAL DE PARCEIROS DO PARQUE CHIMANIMANI
+
+```{r}
+renderValueBox({
+quantidade <- parceiros_inst %>%
+  na.omit() %>%
+  filter(Regiao %in% "CHIMANIMANI", Instituicao!="MICAIA") %>%   summarize(avg_Number = sum(TOTAL))
+valueBox(value = sum(quantidade), icon = "fa-users")
+})
+#Quantos produtores temos em Gorongosa do sexo Feminino
+```
+### TOTAL DE PARCEIROS DO PARQUE GORONGOSA
+
+```{r}
+renderValueBox({
+quantidade <- parceiros_inst %>%
+  na.omit() %>%
+  filter(Regiao %in% "GORONGOSA") %>%   summarize(avg_Number = sum(TOTAL))
+valueBox(value = sum(quantidade), icon = "fa-users")
+})
+#Quantos produtores temos em Gorongosa do sexo Feminino
+```
+## Column {data-width="800"}
 ### TABELA
 
 ```{r}
@@ -758,119 +802,25 @@ backgroundColor = '#e6e6e5')
    
 ```
 
-# OVERVIEW {data-icon="fa-signal" data-navmenu="COMUNIDADE"}
+
+# SESSÕES COMUNITARIAS {data-icon="fa-signal"}
 
 ## Comandos1 {.sidebar}
 
 ```{r}
 fluidPage(
   ("NESSE PAINEL APRESENTAMOS OS DADOS DAS SESSÕES COMUNITARIAS"),
-    
    hr(),
-  radioButtons("regiaocheckxx", label =("Selecione a Região"), 
-               choices =unique(comunidaderesumo$Regiao))
-  )
-```
-
-## Column {data-width="200"}
-
-### TOTAL PARTICIPANTES
-
-```{r}
-renderValueBox({
-quantidade <- comunidaderesumo %>%
-  na.omit() %>%
-   summarize(avg_Number = sum(Total_participantes))
-valueBox(value = sum(quantidade), icon = "fa-users")
-})
-#Quantos produtores temos em Gorongosa do sexo Feminino
-```
-
-### ADULTOS DO SEXO MASCULINO
-
-```{r}
-renderValueBox({
-quantidade <- comunidaderesumo %>%
-  na.omit() %>%
-  summarize(avg_Number = sum(NrAdultoMasculino))
-valueBox(value = sum(quantidade), icon = "fa-users")
-})
-```
-
-### ADULTOS DO SEXO FEMININO
-
-```{r}
-renderValueBox({
-quantidade <- comunidaderesumo %>%
-  na.omit() %>%
-  summarize(avg_Number = sum(NrAdultoFeminino))
-valueBox(value = sum(quantidade), icon = "fa-users")
-})
-```
-
-### CRIANÇAS
-
-```{r}
-renderValueBox({
-quantidade <- comunidaderesumo %>%
-  na.omit() %>%
-  summarize(avg_Number = sum(NrcriancaMasculino)+sum(NrcriancaFeminino))
-valueBox(value = sum(quantidade), icon = "fa-users" )
-})
-#, color ="#9442D4"
-```
-
-## Column {data-width="800"}
-
-### MEMBROS INFLUENTES PRESENTES
-
-```{r}
- comunidadelista$name_influentes  <- NULL
- 
-
- DT::renderDT({
-datatable(comunidadelista %>%
-filter(Regiao %in% input$regiaocheckxx))  %>% formatStyle(
-columns = c(1,2,3,4,5,6), #specify columns to format
-fontFamily = "Arial",
-fontSize = "16px",
-color = '#008080',
-fontWeight = 'bold',
-paddingRight = "1em",
-borderRightWidth = "1px",
-borderRightStyle = "solid",
-borderRightColor = "white",
-borderBottomColor = "#ffffff",
-borderBottomStyle = "solid",
-borderBottomWidth = "1px",
-borderCollapse = "collapse",
-verticalAlign = "middle",
-textAlign = "center",
-wordWrap = "break-word",
-backgroundColor = '#e6e6e5')
-
+  ("EM BAIXO APRESENTAMOS AS OPÇÕES DE FILTRAGEM"),
+  hr(),
+  ("NOTA: Para mostrar os dados deves selecionar pelo menos uma sessão e uma região nas caixinhas em baixo"),
+  
+  hr(),
+  selectInput("checkNrsessao", label =("Selecione numero da sessao"), 
+               choices =unique(comunidaderesumo$Nrsessao), multiple = TRUE),
    
-   })   
- 
-
-
-
-```
-
-# POR SESSÃO {data-icon="fa-signal" data-navmenu="COMUNIDADE"}
-
-## Comandos1 {.sidebar}
-
-```{r}
-fluidPage(
-  ("NESSE PAINEL APRESENTAMOS OS DADOS DAS SESSÕES COMUNITARIAS"),
-   hr(),
-  radioButtons("checkNrsessao", label =("Selecione numero da sessao"), 
-               choices =unique(comunidaderesumo$Nrsessao)),
-   hr(),
-  radioButtons("regiaocheckxx", label =("Selecione a Região"), 
-               choices =unique(comunidaderesumo$Regiao))
-  )
+  selectInput("regiaocheckxx1", label =("Selecione pelo menos uma Região"), 
+               choices =unique(comunidaderesumo$Regiao), multiple = TRUE))
 ```
 
 ## Column {data-width="200"}
@@ -881,7 +831,7 @@ fluidPage(
 renderValueBox({
 quantidade <- comunidaderesumo %>%
   na.omit() %>%
-  filter(Nrsessao %in% input$checkNrsessao, Regiao%in% input$regiaocheckxx) %>%   summarize(avg_Number = sum(Total_participantes))
+  filter(Nrsessao %in% input$checkNrsessao, Regiao%in% input$regiaocheckxx1) %>%   summarize(avg_Number = sum(Total_participantes))
 valueBox(value = quantidade, icon = "fa-users")
 })
 #Quantos produtores temos em Gorongosa do sexo Feminino
@@ -893,7 +843,7 @@ valueBox(value = quantidade, icon = "fa-users")
 renderValueBox({
 quantidade <- comunidaderesumo %>%
   na.omit() %>%
-  filter(Nrsessao %in% input$checkNrsessao, Regiao %in% input$regiaocheckxx) %>%
+  filter(Nrsessao %in% input$checkNrsessao, Regiao %in% input$regiaocheckxx1) %>%
   summarize(avg_Number = sum(NrAdultoMasculino))
 valueBox(value = quantidade, icon = "fa-users")
 })
@@ -905,7 +855,7 @@ valueBox(value = quantidade, icon = "fa-users")
 renderValueBox({
 quantidade <- comunidaderesumo %>%
   na.omit() %>%
-  filter(Nrsessao %in% input$checkNrsessao, Regiao %in% input$regiaocheckxx) %>%
+  filter(Nrsessao %in% input$checkNrsessao, Regiao %in% input$regiaocheckxx1) %>%
   summarize(avg_Number = sum(NrAdultoFeminino))
 valueBox(value = quantidade, icon = "fa-users")
 })
@@ -917,7 +867,7 @@ valueBox(value = quantidade, icon = "fa-users")
 renderValueBox({
 quantidade <- comunidaderesumo %>%
   na.omit() %>%
-  filter(Nrsessao %in% input$checkNrsessao, Regiao %in% input$regiaocheckxx) %>%
+  filter(Nrsessao %in% input$checkNrsessao, Regiao %in% input$regiaocheckxx1) %>%
   summarize(avg_Number = sum(NrcriancaMasculino)+sum(NrcriancaFeminino))
 valueBox(value = quantidade, icon = "fa-users" )
 })
@@ -934,7 +884,7 @@ valueBox(value = quantidade, icon = "fa-users" )
  
  DT::renderDT({
   datatable(comunidadelista %>% 
-filter(Nrsessao %in% input$checkNrsessao, Regiao %in% input$regiaocheckxx))  %>% formatStyle(
+filter(Nrsessao %in% input$checkNrsessao, Regiao %in% input$regiaocheckxx1))  %>% formatStyle(
 columns = c(1,2,3,4,5,6), #specify columns to format
 fontFamily = "Arial",
 fontSize = "16px",

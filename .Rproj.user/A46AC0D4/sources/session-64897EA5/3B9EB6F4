@@ -3,24 +3,25 @@
     "path": "C:/Users/Dercio/OneDrive - Oxford Policy Management Limited/Ferramentas de Consider/SistemaMonitoria_Consider/Consider/SistemaMonitoria_Consider.Rmd",
     "project_path": "SistemaMonitoria_Consider.Rmd",
     "type": "r_markdown",
-    "hash": "504567162",
+    "hash": "1427035494",
     "contents": "",
     "dirty": false,
     "created": 1666857698050.0,
-    "source_on_save": false,
+    "source_on_save": true,
     "relative_order": 1,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "41,0",
-        "scrollLine": "29"
+        "cursorPosition": "632,74",
+        "scrollLine": "623",
+        "last_setup_crc32": "64897EA5e5d1f29f"
     },
-    "folds": "",
-    "lastKnownWriteTime": 1666864008,
+    "folds": "28|27|81|0|\n89|5|211|0|\n212|35|362|0|\n268|31|279|0|\n280|48|290|0|\n363|60|449|0|\n450|61|538|0|\n466|37|538|0|\n539|63|618|7|\n729|60|803|0|\n",
+    "lastKnownWriteTime": 1666882834,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1666864008389,
+    "last_content_update": 1666882834977,
     "read_only": false,
     "read_only_alternatives": []
 }
