@@ -76,7 +76,8 @@ parceiros_ch=parceiros %>%filter(parceiros$Regiao=="CHIMANIMANI")
 dados_gorongosa = dados %>% filter(dados$Regiao=="GORONGOSA")
 dados_chimanimani = dados %>% filter(dados$Regiao=="CHIMANIMANI")
    
- 
+ maxsexxoesCH=max(dados_chimanimani$nrSessao)
+ maxsexxoesGO=max(dados_gorongosa$nrSessao)
 ```
 
 ```{r}
