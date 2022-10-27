@@ -2,7 +2,7 @@
 ### ESSE É O MEU PRIMEIRO APLICATIVO WEB
 ### DASHBOARD INTERATIVO PARA MUVA - CONSIDER
 title: "MUVA CONSIDERA"
-output:   
+output:     
   flexdashboard::flex_dashboard:
     #logo: "ANM-0150-Ligada-Muva-Identidade-Logo-160829-F-hi-01 (2) (4).png"
     vertical_layout: fill 
