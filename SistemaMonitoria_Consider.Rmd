@@ -742,7 +742,9 @@ fluidPage(("A tabela mostra as instituições parceiras e numero de parceiros po
            hr()) 
   
 ```
+
 ## Column {data-width="200"}
+
 ### TOTAL DE PARCEIROS DA MICAIA
 
 ```{r}
@@ -766,6 +768,7 @@ valueBox(value = sum(quantidade), icon = "fa-users")
 })
 #Quantos produtores temos em Gorongosa do sexo Feminino
 ```
+
 ### TOTAL DE PARCEIROS DO PARQUE GORONGOSA
 
 ```{r}
@@ -777,7 +780,9 @@ valueBox(value = sum(quantidade), icon = "fa-users")
 })
 #Quantos produtores temos em Gorongosa do sexo Feminino
 ```
+
 ## Column {data-width="800"}
+
 ### TABELA
 
 ```{r}
@@ -901,5 +906,5 @@ borderCollapse = "collapse",
 verticalAlign = "middle",
 textAlign = "center",
 wordWrap = "break-word",
-backgroundColor = '#e6e6e5')})
+backgroundColor = '#e6e6e5')}) 
 ```
