@@ -51,13 +51,8 @@ library(ggthemes)
  produtores_Consider <- read_excel("produtores_Consider.xlsx")
  parceiros <- read_excel("parceiros.xlsx")
  parceiros_inst <- read_excel("parceiros_inst.xlsx")
- 
  parceiros_unique <- read_excel("parceiros_unique.xlsx")
- parceiros_present <- read_excel("parceiros_present.xlsx", 
-    col_types = c("text", "text", "text", 
-        "text", "text", "numeric", "text", 
-        "text", "numeric", "numeric", "text", 
-        "numeric"))
+ parceiros_present <- read_excel("parceiros_present.xlsx")
  comunidaderesumo <- read_excel("comunidaderesumo.xlsx")
  comunidadelista <- read_excel("comunidadelista.xlsx")
  comunidadetotal<- read_excel("comunidadetotal.xlsx")
@@ -680,25 +675,7 @@ valueBox(value = list((round(((quantidade$Number_1)/(quantidade_T$Number))*100,d
  
 })
 ```
-
-### TOTAL DE PARCEIROS QUE REALIZARAM TODAS PHOTOVOICE
-
-```{r}
-renderValueBox({
  
-valueBox(value = "Sem dados", icon = "fa-users")
-})
-```
- 
-### PERCENTAGEM DE PARCEIROS DO SEXO FEMININO QUE REALIZAM TODAS PHOTOVOICE
- 
-
-```{r}
-renderValueBox({
- valueBox(value = "Sem dados", icon = "fa-users" )
-})
-#, color ="#9442D4"
-```
 
 ## Column {data-width="800"}
 
@@ -715,17 +692,7 @@ renderPlotly({
   theme(legend.position = "top")+ labs(y = "Numero de parceiros presentes",x="Numero de Sessões com parceiros")+theme_bw()+geom_point()+scale_y_continuous(limits=c(0,25))+scale_x_continuous(limits=c(1,4)) +geom_point(aes(x = nrworkshoop, y = Total), shape = 9,size = 1.8, colour = "#000000") +scale_shape_identity()+theme(legend.position = "top" )+ ggtitle("Parceiros presente nas sessões")
   ggplotly(g)})
 ```
-
-### PARCEIROS QUE REALIZAM PHOTOVOICE
-
-```{r}
-renderPlotly({
-  g= ggplot() +geom_text() +
-  annotate("text", label = "sem dados",
-    x =2, y = 5, size = 8, colour = "red" 
-  )+ ggtitle("Parceiros que realizaram photovoice") +xlim(0,4)+ylim(0,10)+ labs(y = "Numero de parceiros presentes",x="Numero de Sessões com parceiros")+theme_bw()  
-  ggplotly(g)})
-```
+ 
 
 # LISTA DE INSTITUIÇÕES PARCEIRAS {data-navmenu="PARCEIROS"}
 
