@@ -42,6 +42,7 @@ library(tidyverse)
  library(readxl)
 library(shiny)
 library(knitr) 
+#library(Statamarkdown)
 
 if(!require('stringr')) {
   install.packages('stringr')
@@ -125,7 +126,7 @@ valueBox(sum(Fe$Quantidade),caption="PRODUTORAS DO SEXO FEMININO",icon = "fas fa
 ### TOTAL DE PRODUTORES LIDERES
 
 ```{r}
-Plider= dados   %>% 
+Plider= dados  %>% 
   filter(ProdutorLider=="SIM",nrSessao==1) %>% 
   group_by(Regiao) %>%
   summarise(Quantidade = n())
