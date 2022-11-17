@@ -83,7 +83,7 @@ dados_chimanimani = dados %>% filter(dados$Regiao=="CHIMANIMANI")
 #==================================================================================
 ```
 
-# { }
+# {} 
 
 ## Comandos2 {.sidebar}
 
@@ -95,7 +95,7 @@ NESSE PAINEL APRESENTAMOS DADOS GERAIS DO PROJECTO CONSIDERA
 ```
 
 O Projecto Considera esta sendo implementado em Chimanimani e Gorongosa
-
+ 
 ## Column {data-width="200"}
 
 ### TOTAL PRODUTORES
@@ -192,7 +192,7 @@ Desistentes_Total= desistentes  %>%
   summarise(Quantidade = n())  
 valueBox(sum(Desistentes_Total$Quantidade) ,caption="TOTAL DE DESISTENTES",icon ="fas fa-user-circle", color = "#F77333")
 ```
-
+ 
 ### DESISTENTES DO SEXO FEMININO
 
 ```{r}
