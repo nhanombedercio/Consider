@@ -861,7 +861,7 @@ filter(Nrsessao %in% input$checkNrsessao, Regiao %in% input$regiaocheckxx1))  %>
 columns = c(1,2,3,4,5,6), #specify columns to format
 fontFamily = "Arial",
 fontSize = "16px",
-color = '#008080',
+color = '#008080', 
 fontWeight = 'bold',
 paddingRight = "1em",
 borderRightWidth = "1px",
