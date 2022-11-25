@@ -419,7 +419,7 @@ tab_freq_c_foto_ag <- dados %>%
 renderPlotly({
   g=filter(tab_freq_c_foto_ag, tab_freq_c_foto_ag$photovoice=="SIM", tab_freq_c_foto_ag$Regiao==input$regiaocheck) %>% mutate(media=round(mean(Percentagem),digits = 0)) %>% ggplot(., aes(x =nrSessao , y=Percentagem,   color=as.factor(Sexo)))+geom_line()+scale_color_manual(values = c("#9442D4","#F77333"), name="SEXO")+ labs(y = "Produtores que realizaram photovoice %",x="Numero de Sessoes")+theme_bw()+geom_point()+scale_y_continuous(limits=c(0,100))+scale_x_continuous(limits=c(1,8))+ geom_hline(aes(yintercept = media))+theme_update(panel.grid.minor = element_line(colour = "red"))+ ggtitle("Produtores que realizaram actividade de photovoice")
   ggplotly(g) 
-}  )
+}  ) 
 ```
 
 ### PARTICIPAÇÃO
