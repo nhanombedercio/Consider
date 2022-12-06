@@ -61,6 +61,7 @@ library(ggthemes)
  photo_Produtores<- read_excel("photo_Produtores.xlsx")
  sempre_presente<-read_excel("sempre_Presentes.xlsx")
  desistentes<-read_excel("desistentes.xlsx")
+ parceiros_tabela<-read_excel("parceiros_tabela.xlsx")
 #"C:\Users\Dercio\OneDrive - Oxford Policy Management Limited\Ferramentas de Consider\04 Data Clean\Sessao01_comunitaria_Chimanimani.xlsx"
 
 dados = produtores_Consider %>% 
@@ -224,11 +225,11 @@ O Projecto Considera esta sendo implementado em Chimanimani e Gorongosa
 fluidPage(
 
 hr(),
-("Para mostrar os dados deves selecionar na caixinha em baixo uma ou duas regiões"),
+("Faça os seus filtros na caixinha em baixo"),
 hr(),
 
   selectInput("RegiaoProdutor", label =  ("Selecione a Região"), 
-               choices = unique(dados$Regiao), multiple = TRUE), 
+               choices = unique(dados$Regiao), selected = list("GORONGOSA","CHIMANIMANI"), multiple = TRUE), 
   hr()  
 )
 ```
@@ -422,7 +423,7 @@ renderPlotly({
 }  ) 
 ```
 
-### PARTICIPAÇÃO
+### PARTICIPAÇÃO 
 
 ```{r}
 options(dplyr.summarise.inform = FALSE)
@@ -624,20 +625,23 @@ fluidPage(("NESSE PAINEL APRESENTAMOS OS DADOS DOS WORKSHOOP COM PARCEIROS"),
 ```
 
 ```{r}
+ fluidPage(
+  markdown("Para mostrar os dados na Tabela escolhe pelo menos uma Região na caixinha em baixo"
+  ),hr())
+```
 
-fluidPage(radioButtons("REGIAOParc", label =  ("Selecione a Regiao"), 
-               choices = unique(parceiros$Regiao), selected = "GORONGOSA")
+```{r}
+
+fluidPage(selectInput("REGIAOParc", label =  ("Selecione a Regiao"), 
+               choices = unique(parceiros$Regiao), selected = list("GORONGOSA","CHIMANIMANI"), multiple = TRUE)
            
 )
 ```
 
 ```{r}
  fluidPage(
-  markdown("As telas ao lado mostram o numero de parceiros que presentes e que realizaram as actividades de photovoice em cada sessão \n
-           
-           OS QUADRADINHOS PRETOS APRESENTAM O TOTAL DOS PARCEIROS POR SESSAO"
+  markdown("As telas ao lado mostram o numero de parceiros presentes em cada sessão"
   ))
- 
 ```
 
 
@@ -672,7 +676,7 @@ quantidade <- parceiros_present %>%
   group_by(Sexo) %>%
   summarize(Number_1 =n())
             #mutate(round(percent=Number_1/quantidade_T$Number,digits =1)*100)
-valueBox(value = list((round(((quantidade$Number_1)/(quantidade_T$Number))*100,digits =1)), "%"), icon = "fa-users")
+valueBox(value = list((round(((sum(quantidade$Number_1))/(sum(quantidade_T$Number)))*100,digits =1)), "%"), icon = "fa-users")
  
 })
 ```
@@ -680,18 +684,31 @@ valueBox(value = list((round(((quantidade$Number_1)/(quantidade_T$Number))*100,d
 
 ## Column {data-width="800"}
 
-### PRESENÇA NAS SESSÕES
+### Número de parceiros presente nas sessões 
 
 ```{r}
-options(dplyr.summarise.inform = FALSE)
-tab_parceiros <- parceiros %>%
-  group_by(nrworkshoop, Regiao, Sexo) %>%
-  summarise(n = n()) %>%  mutate(Total=sum(n)) 
+ DT::renderDT({
+  datatable(parceiros_tabela %>% 
+filter(Regiao %in% input$REGIAOParc))  %>% formatStyle(
+columns = c(1,2,3,4,5,6), #specify columns to format
+fontFamily = "Arial",
+fontSize = "16px",
+color = '#008080', 
+fontWeight = 'bold',
+paddingRight = "1em",
+borderRightWidth = "1px",
+borderRightStyle = "solid",
+borderRightColor = "white",
+borderBottomColor = "#ffffff",
+borderBottomStyle = "solid",
+borderBottomWidth = "1px",
+borderCollapse = "collapse",
+verticalAlign = "middle",
+textAlign = "center",
+wordWrap = "break-word",
+backgroundColor = '#e6e6e5')})
+###########3
 
-renderPlotly({
-  g=filter(tab_parceiros, Regiao==input$REGIAOParc) %>% ggplot(., aes(x =nrworkshoop , y=n,   color =Sexo))+geom_line()+scale_color_manual(values = c("#9442D4","#F77333"), name="Sexo")+
-  theme(legend.position = "top")+ labs(y = "Numero de parceiros presentes",x="Numero de Sessões com parceiros")+theme_bw()+geom_point()+scale_y_continuous(limits=c(0,25))+scale_x_continuous(limits=c(1,4)) +geom_point(aes(x = nrworkshoop, y = Total), shape = 9,size = 1.8, colour = "#000000") +scale_shape_identity()+theme(legend.position = "top" )+ ggtitle("Parceiros presente nas sessões")
-  ggplotly(g)})
 ```
  
 
