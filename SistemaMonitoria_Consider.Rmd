@@ -327,18 +327,14 @@ fluidPage(
  
   radioButtons("regiaocheck", label =("Selecione a Região"), 
                choices =unique(dados$Regiao), selected = "GORONGOSA"),
-   hr()
+   hr(),
+  markdown("A linha preta representa a média na respectiva comunidade \n
+VEJA AS PERCENTAGENS PASSANDO O MOUSE NOS GRAFICOS"
+)
   )
  
 ```
 
-```{r}
- fluidPage(
-  markdown("A linha preta representa a média na respectiva comunidade \n
-VEJA AS PERCENTAGENS PASSANDO O MOUSE NOS GRAFICOS"
-))
- 
-```
 ## Column {data-width="100"}
 
 ### TOTAL DE PRODUTORES QUE PARTICIPARAM EM PELO MENOS UMA SESSÃO
@@ -396,9 +392,6 @@ valueBox(value = list(quantidadessF$Number_1ssF,"(",(round(((sum(quantidadessF$N
 })
 ```
 
-
-
-
 ### MULHERES QUE PARTICIPAM EM TODAS AS SESSÕES
 
 ```{r}
@@ -418,11 +411,12 @@ valueBox(value = list(quantidadess$Number_1ss,"(",(round(((sum(quantidadess$Numb
  
 })
 ```
+
+
 ## Column {.tabset data-width="900"}
 
- 
-### PRESENÇAS
 
+### PRESENÇAS
 ```{r}
  
 options(dplyr.summarise.inform = FALSE)
