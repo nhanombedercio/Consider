@@ -84,23 +84,7 @@ dados_chimanimani = dados %>% filter(dados$Regiao=="CHIMANIMANI")
 #==================================================================================
 ```
 
-# {} 
-
-## Comandos2 {.sidebar}
-
-NESSE PAINEL APRESENTAMOS DADOS GERAIS DO PROJECTO CONSIDERA
-
-```{r}
-
-  hr()
-```
-
-O Projecto Considera esta sendo implementado em Chimanimani e Gorongosa
  
-## Column {data-width="200"}
-
-### TOTAL PRODUTORES
-
 ```{r}
 Total_produtores= dados %>% 
   filter(nrSessao==1) %>% 
@@ -108,23 +92,20 @@ Total_produtores= dados %>%
   summarise(Quantidade = n())
 
 #Quantos produtores temos em Gorongosa do sexo Feminino
-valueBox(sum(Total_produtores$Quantidade),caption="TOTAL DE PRODUTORES",icon ="fas fa-user-circle", color ="#F77333")
+ 
 ```
 
-### FEMININO
-
+ 
 ```{r}
 Fe= dados %>% 
   filter(Sexo=="FEMININO",nrSessao==1) %>% 
   group_by(Regiao) %>%
   summarise(Quantidade = n())
 #Quantos produtores temos em Gorongosa do sexo Feminino}
-valueBox(sum(Fe$Quantidade),caption="PRODUTORAS DO SEXO FEMININO",icon = "fas fa-venus", color = "#9442D4")
+ 
 ```
 
-## Column {data-width="200"}
-
-### TOTAL DE PRODUTORES LIDERES
+ 
 
 ```{r}
 Plider= dados  %>% 
@@ -132,75 +113,52 @@ Plider= dados  %>%
   group_by(Regiao) %>%
   summarise(Quantidade = n())
 #Quantos produtores temos em Gorongosa do sexo Feminino
-valueBox(sum(Plider$Quantidade),caption="TOTAL DE PRODUTORES LIDERES",icon ="fas fa-user-circle", color = "#F77333")
+ 
 ```
 
-### TOTAL DE PRODUTORES LIDERES DO SEXO FEMININO
-
+ 
 ```{r}
 Plider_F= dados   %>% 
   filter(ProdutorLider=="SIM",nrSessao==1,Sexo=="FEMININO") %>% 
   group_by(Regiao) %>%
   summarise(Quantidade = n()) 
 #Quantos produtores temos em Gorongosa do sexo Feminino
-valueBox(sum(Plider_F$Quantidade),caption="PRODUTORAS LIDERES DO SEXO FEMININO",icon = "fas fa-venus", color = "#9442D4")
+ 
 ```
 
-## Column {data-width="200"}
-
-### Total de parceiros(as)
+ 
 
 ```{r}
 parceiro_Total= parceiros_unique %>%
   group_by(Regiao, Sexo) %>%
   summarise(Quantidade = n())
 #Quantos produtores temos em Gorongosa do sexo Feminino
-valueBox(sum(parceiro_Total$Quantidade),caption="TOTAL DE PARCEIROS",icon ="fas fa-user-circle", color = "#F77333")
+ 
 ```
 
-### Total de parceiros de sexo Feminino que participam dos Workshoop
-
+ 
 ```{r}
 Fparceiro_Total= parceiros_unique   %>% filter(parceiros_unique$Sexo=="FEMININO") %>%
   group_by(Sexo) %>%
   summarise(Quantidade = n())  
 #Quantos produtores temos em Gorongosa do sexo Feminino
-valueBox(round(Fparceiro_Total$Quantidade, digits = 0),caption="TOTAL DE PARCEIROS DO SEXO FEMININO",icon = "fas fa-venus", color = "#9442D4")
+ 
 ```
+ 
+ 
 
-## Column {data-width="200"}
-
-### comunidade
-
-```{r}
-hr()
- valueBox(sum(comunidadetotal$totalHOMENS)+sum(comunidadetotal$totalHOMENS),caption="TOTAL DE PARTICIPANTES (ADULTOS) NA COMUNIDADE",icon ="fas fa-user-circle", color = "#F77333")
-```
-
-### COMUNIDADE MULHERES
-
-```{r}
-valueBox(sum(comunidadetotal$totalMULHERES),caption="TOTAL DE PARTICIPANTES (ADULTAS) DO SEXO FEMININO NA COMUNIDADE",icon = "fas fa-venus", color = "#9442D4")
-```
-
-## Column {data-width="200"}
-
-### TOTAL DE DESISTENTES
-
+ 
 ```{r}
 Desistentes_Total= desistentes  %>% 
   group_by(Sexo) %>%
   summarise(Quantidade = n())  
-valueBox(sum(Desistentes_Total$Quantidade) ,caption="TOTAL DE DESISTENTES",icon ="fas fa-user-circle", color = "#F77333")
+ 
 ```
  
-### DESISTENTES DO SEXO FEMININO
-
+ 
 ```{r}
 Desistentes_F= Desistentes_Total  %>% 
   filter(Sexo=="FEMININO")
-    
-valueBox(sum(Desistentes_F$Quantidade) ,caption="TOTAL DE DESISTENTES DO SEXO FEMININO",icon ="fas fa-venus", color = "#9442D4")
 ```
 
 ```{r}
@@ -801,16 +759,15 @@ backgroundColor = '#e6e6e5')
 fluidPage(
   ("NESSE PAINEL APRESENTAMOS OS DADOS DAS SESSÕES COMUNITARIAS"),
    hr(),
-  ("EM BAIXO APRESENTAMOS AS OPÇÕES DE FILTRAGEM"),
+    selectInput("regiaocheckxx1", label =("Selecione pelo menos uma Região"),choices =unique(comunidaderesumo$Regiao),selected=list("GORONGOSA","CHIMANIMANI"), multiple = TRUE),
+ hr(),
+  selectInput("checkNrsessao", label =("Selecione numero da sessao"), 
+               choices =unique(comunidaderesumo$Nrsessao),selected="1", multiple = TRUE),
+  ("EM CIMA APRESENTAMOS AS OPÇÕES DE FILTRAGEM"),
   hr(),
   ("NOTA: Para mostrar os dados deves selecionar pelo menos uma sessão e uma região nas caixinhas em baixo"),
-  
-  hr(),
-  selectInput("checkNrsessao", label =("Selecione numero da sessao"), 
-               choices =unique(comunidaderesumo$Nrsessao), multiple = TRUE),
-   
-  selectInput("regiaocheckxx1", label =("Selecione pelo menos uma Região"), 
-               choices =unique(comunidaderesumo$Regiao), multiple = TRUE))
+)
+
 ```
 
 ## Column {data-width="200"}
@@ -870,11 +827,11 @@ valueBox(value = quantidade, icon = "fa-users" )
 
 ```{r}
  comunidadelista$name_influentes  <- NULL
-
+comunidadelista$participante_projecto  <- NULL
  
  DT::renderDT({
   datatable(comunidadelista %>% 
-filter(Nrsessao %in% input$checkNrsessao, Regiao %in% input$regiaocheckxx1))  %>% formatStyle(
+filter(Regiao %in% input$regiaocheckxx1, Nrsessao %in% input$checkNrsessao))  %>% formatStyle(
 columns = c(1,2,3,4,5,6), #specify columns to format
 fontFamily = "Arial",
 fontSize = "16px",
