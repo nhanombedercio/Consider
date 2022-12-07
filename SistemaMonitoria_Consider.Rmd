@@ -323,31 +323,104 @@ valueBox(sum(Desistentes_F_G$Quantidade),caption="TOTAL DE DESISTENTES DO SEXO F
 ```{r}
 fluidPage(
   markdown("NESSE PAINEL APRESENTAMOS OS DADOS AGREGADOS DAS SESSÕES DOS PRODUTORES"),
-   hr())
-```
-
-```{r}
- fluidPage(
-  markdown("Na Janela ao lado mostramos 
-  a percentagem de: \n * PRESENÇA - Presença dos 
-      produtores nas sessões \n * PHOTOVOICE -Produtores que realizaram \n as 
-      actividades de photovoice em cada sessão \n * PARTICIPAÇÃO - Produtores que falam nas sessões  \n
-A linha preta representa a média na respectiva comunidade \n
-VEJA AS PERCENTAGENS PASSANDO O MOUSE NOS GRAFICOS"
-))
+   hr(),
  
-```
-
-## Column {.tabset data-width="1000"}
-
-```{r}
-fluidPage(
   radioButtons("regiaocheck", label =("Selecione a Região"), 
                choices =unique(dados$Regiao), selected = "GORONGOSA"),
    hr()
   )
+ 
 ```
 
+```{r}
+ fluidPage(
+  markdown("A linha preta representa a média na respectiva comunidade \n
+VEJA AS PERCENTAGENS PASSANDO O MOUSE NOS GRAFICOS"
+))
+ 
+```
+## Column {data-width="100"}
+
+### TOTAL DE PRODUTORES QUE PARTICIPARAM EM PELO MENOS UMA SESSÃO
+
+```{r}
+renderValueBox({
+  totalR<-participantes_Produtores %>%
+  filter(Regiao %in% input$regiaocheck) %>% 
+  group_by(Regiao) %>%
+  summarize(avg_NR =n())
+  
+ 
+valueBox(value =totalR$avg_NR , icon = "fa-users", color = "#9442D4")
+})
+#Quantos produtores temos em Gorongosa do sexo Feminino
+```
+
+### TOTAL DE PRODUTORES QUE PARTICIPAM EM TODAS AS SESSÕES
+
+```{r}
+renderValueBox({
+  totalsfFT<-participantes_Produtores %>%
+  filter(Regiao %in% input$regiaocheck) %>% 
+  group_by(Regiao) %>%
+  summarize(avg_NsfFT =n())    
+  
+quantidadessFT <- sempre_presente %>%
+  filter(Regiao %in% input$regiaocheck) %>% 
+  group_by(Regiao) %>%
+  summarize(Number_1ssFT =n())
+            #mutate(round(percent=Number_1/quantidade_T$Number,digits =1)*100)
+valueBox(value = list(quantidadessFT$Number_1ssFT,"(",(round(((sum(quantidadessFT$Number_1ssFT))/(sum(totalsfFT$avg_NsfFT)))*100,digits =0)), "%",")"), icon = "fa-users",color = "#F77333")
+ 
+})
+```
+
+
+### HOMENS QUE PARTICIPAM EM TODAS AS SESSÕES
+
+```{r}
+renderValueBox({
+  totalsfF<-sempre_presente %>%
+  filter(Regiao %in% input$regiaocheck) %>% 
+  group_by(Regiao) %>%
+  summarize(avg_NsfF =n())    
+  
+quantidadessF <- sempre_presente %>%
+  filter(Regiao %in% input$regiaocheck) %>% 
+   filter(Sexo %in% "MASCULINO") %>%
+  group_by(Sexo) %>%
+  summarize(Number_1ssF =n())
+            #mutate(round(percent=Number_1/quantidade_T$Number,digits =1)*100)
+valueBox(value = list(quantidadessF$Number_1ssF,"(",(round(((sum(quantidadessF$Number_1ssF))/(sum(totalsfF$avg_NsfF)))*100,digits =0)), "%",")"), icon = "fa-users",color = "#ADD8E6")
+ 
+})
+```
+
+
+
+
+### MULHERES QUE PARTICIPAM EM TODAS AS SESSÕES
+
+```{r}
+renderValueBox({
+  totalsf<-sempre_presente %>%
+  filter(Regiao %in% input$regiaocheck) %>% 
+  group_by(Regiao) %>%
+  summarize(avg_Nsf =n())    
+  
+quantidadess <- sempre_presente %>%
+  filter(Regiao %in% input$regiaocheck) %>% 
+   filter(Sexo %in% "FEMININO") %>%
+  group_by(Sexo) %>%
+  summarize(Number_1ss =n())
+            #mutate(round(percent=Number_1/quantidade_T$Number,digits =1)*100)
+valueBox(value = list(quantidadess$Number_1ss,"(",(round(((sum(quantidadess$Number_1ss))/(sum(totalsf$avg_Nsf)))*100,digits =0)), "%",")"), icon = "fa-users")
+ 
+})
+```
+## Column {.tabset data-width="900"}
+
+ 
 ### PRESENÇAS
 
 ```{r}
